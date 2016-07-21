@@ -66,9 +66,9 @@ public class InputReader
         {
             reader.scan();
 
-            LOG.info("Study    {}", reader.dcm().getString(Tag.StudyInstanceUID));
-            LOG.info("Series   {}", reader.dcm().getString(Tag.SeriesInstanceUID));
-            LOG.info("Instance {}", reader.dcm().getString(Tag.SOPInstanceUID));
+            LOG.debug("Study    {}", reader.dcm().getString(Tag.StudyInstanceUID));
+            LOG.debug("Series   {}", reader.dcm().getString(Tag.SeriesInstanceUID));
+            LOG.debug("Instance {}", reader.dcm().getString(Tag.SOPInstanceUID));
 
             DcmStudy study = updateStudy(reader);
             DcmSeries series = study.updateSeries(reader);
@@ -80,7 +80,7 @@ public class InputReader
     {
         String studyInstance = reader.dcm().getString(Tag.StudyInstanceUID);
 
-        LOG.info("update study {}", studyInstance);
+        LOG.debug("update study {}", studyInstance);
 
         DcmStudy study = null;
 
@@ -95,6 +95,32 @@ public class InputReader
         }
 
         return study;
+    }
+
+    public void printStats()
+    {
+        for (DcmStudy study: studies.values())
+        {
+            LOG.info("S:{}", study.instance());
+
+            for (DcmSeries series: study.series())
+            {
+                LOG.info("   \\_{}", series.instance());
+
+                for (DcmInstance inst: series.intances())
+                {
+                    LOG.info("      \\_{}", inst.instance());
+                    if (inst.references().size() > 0)
+                    {
+                        for(String ref: inst.references())
+                        {
+                            LOG.info("          -> {}", ref);
+                        }
+                    }
+
+                }
+            }
+        }
     }
 
 }

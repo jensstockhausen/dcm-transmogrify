@@ -84,6 +84,8 @@ public class FileReader
 
         try
         {
+            LOG.info("opening file {}", file.getAbsolutePath());
+
             dis = new DicomInputStream(file);
         }
         catch (IOException e)

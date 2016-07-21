@@ -66,8 +66,8 @@ public class Application
         opts.addOption(Option.builder("m")
                 .longOpt("mode")
                 .hasArg(true)
-                .argName("opration mode")
-                .desc("possible values: rename")
+                .argName("operation mode")
+                .desc("possible values: analyse, rename")
                 .required(false)
                 .build());
 
@@ -117,7 +117,13 @@ public class Application
             mode = cmd.getOptionValue("m");
         }
 
-        if (mode.equals("rename"))
+
+        if (mode.equals("analyse"))
+        {
+            reader.printStats();
+        }
+
+        else if (mode.equals("rename"))
         {
             FileRenamer rename = new FileRenamer(reader, output);
 

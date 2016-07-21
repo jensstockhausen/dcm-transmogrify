@@ -4,6 +4,7 @@ import org.dcm4che3.data.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,7 +35,7 @@ public class DcmSeries
     {
         String instuid = reader.dcm().getString(Tag.SOPInstanceUID);
 
-        LOG.info("update instance {}", instuid);
+        LOG.debug("update instance {}", instuid);
 
         DcmInstance ins;
 
@@ -49,5 +50,10 @@ public class DcmSeries
         }
 
         return ins;
+    }
+
+    public Collection<DcmInstance> intances()
+    {
+        return instances.values();
     }
 }

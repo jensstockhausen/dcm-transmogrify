@@ -4,6 +4,7 @@ import org.dcm4che3.data.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,7 +17,7 @@ public class DcmStudy
 
     private String instance;
 
-    Map<String,DcmSeries> series = new HashMap<>();
+    private Map<String,DcmSeries> series = new HashMap<>();
 
     public DcmStudy(FileReader reader)
     {
@@ -28,12 +29,11 @@ public class DcmStudy
         return instance;
     }
 
-
     public DcmSeries updateSeries(FileReader reader)
     {
         String seriesInstance = reader.dcm().getString(Tag.SeriesInstanceUID);
 
-        LOG.info("update series {}", seriesInstance);
+        LOG.debug("update series {}", seriesInstance);
 
         DcmSeries ser;
 
@@ -49,4 +49,11 @@ public class DcmStudy
 
         return ser;
     }
+
+    Collection<DcmSeries> series()
+    {
+        return series.values();
+    }
+
+
 }
